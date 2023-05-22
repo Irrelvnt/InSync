@@ -2,28 +2,25 @@ package com.irrelvnt.nsync;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class Utils {
     public static List<String> extractValuesFromString(String input) {
         List<String> values = new ArrayList<>();
 
+        // Remove the "StreamInfoItem" prefix and curly braces
         input = input.replace("StreamInfoItem", "").replace("{", "").replace("}", "");
-        String[] pairs = input.split(",");
 
-        // Extract the desired values
-        for (String pair : pairs) {
-            // Split each pair by the equal sign
-            String[] keyValue = pair.trim().split("=");
+        // Use regular expressions to extract the desired values
+        Pattern pattern = Pattern.compile("(uploaderName|name|url|thumbnailUrl)='([^']*)'");
+        Matcher matcher = pattern.matcher(input);
 
-            if (keyValue.length == 2) {
-                // Check for the desired keys and add their values to the list
-                String key = keyValue[0].trim();
-                String value = keyValue[1].trim();
-                if (key.equals("uploaderName") || key.equals("name") || key.equals("url") || key.equals("thumbnailUrl")) {
-                    values.add(value);
-                }
-            }
+        // Find matches and add the captured values to the list
+        while (matcher.find()) {
+            values.add(matcher.group(2));
         }
+
         return values;
     }
 }

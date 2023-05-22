@@ -1,8 +1,14 @@
 package com.irrelvnt.nsync.MusicExtractor;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
+import androidx.core.os.HandlerCompat;
+
 import com.irrelvnt.nsync.Player;
+import com.irrelvnt.nsync.ui.discover.DiscoverFragment;
+import com.irrelvnt.nsync.ui.home.HomeFragment;
 
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.ListExtractor;
@@ -18,7 +24,7 @@ import org.schabi.newpipe.extractor.stream.StreamExtractor;
 
 import java.util.List;
 
-public class YoutubeExtractor {
+public class MusicProvider {
     static StreamingService youtube;
     static LinkHandlerFactory linkHandlerFactory;
     static LinkHandler linkHandler;
@@ -26,7 +32,7 @@ public class YoutubeExtractor {
 
     private static void initializeExtractor() throws Exception {
         youtube = NewPipe.getService(0);
-        NewPipe.init(DownloaderTestImpl.init(null));
+        NewPipe.init(DownloaderImplementation.init(null));
         linkHandlerFactory = youtube.getStreamLHFactory();
     }
 
@@ -49,6 +55,7 @@ public class YoutubeExtractor {
                     try {
                         String audioURL = getAudio(url);
                         Player.setUrl(audioURL);
+                        HomeFragment.getInstance().changeVisibility();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -57,21 +64,24 @@ public class YoutubeExtractor {
     }
 
     public static void getInfoFromName(String title) {
-        new Thread(
-                () -> {
-                    try {
-                        initializeExtractor();
-                        SearchQueryHandlerFactory searchQueryHandlerFactory = youtube.getSearchQHFactory();
-                        SearchQueryHandler query = searchQueryHandlerFactory.fromQuery(title);
-                        SearchExtractor searchExtractor = youtube.getSearchExtractor(query);
-                        searchExtractor.onFetchPage(NewPipe.getDownloader());
-                        ListExtractor.InfoItemsPage<InfoItem> page = searchExtractor.getInitialPage();
-                        Player.setFetchedVideos(page.getItems());
-                        Log.e("TAG", page.getItems().get(0).toString());
-                    } catch (Exception e) {
-                        Log.e("TAG", "err", e);
-                    }
-                }
-        ).start();
+        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+        Thread thread = new Thread(() -> {
+            try {
+                initializeExtractor();
+                SearchQueryHandlerFactory searchQueryHandlerFactory = youtube.getSearchQHFactory();
+                SearchQueryHandler query = searchQueryHandlerFactory.fromQuery(title);
+                SearchExtractor searchExtractor = youtube.getSearchExtractor(query);
+                searchExtractor.onFetchPage(NewPipe.getDownloader());
+                ListExtractor.InfoItemsPage<InfoItem> page = searchExtractor.getInitialPage();
+                Player.setFetchedVideos(page.getItems());
+                mainThreadHandler.post(
+                        () -> DiscoverFragment.getInstance().changeVisibility()
+                );
+            } catch (Exception e) {
+                Log.e("TAG", "err", e);
+            }
+        });
+        thread.start();
+
     }
 }

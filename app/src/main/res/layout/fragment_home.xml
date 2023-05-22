@@ -1,182 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:layout_marginTop="75dp">
-
-    <HorizontalScrollView
-        android:id="@+id/cards"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RelativeLayout
-                android:id="@+id/favourites"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/card_rounded"
-                android:backgroundTint="#40FFFFFF"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@android:anim/overshoot_interpolator">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/favorite_white_24dp"
-                    android:stateListAnimator="@android:anim/overshoot_interpolator" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="3dp"
-                    android:text="Favourites"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/discover"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_margin="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/card_rounded"
-                android:backgroundTint="#40FFFFFF"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@android:anim/overshoot_interpolator">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/explore_white_24dp"
-                    android:stateListAnimator="@android:anim/overshoot_interpolator" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="3dp"
-                    android:text="Discover"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/editor"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_margin="8dp"
-                android:clickable="true"
-                android:background="@drawable/card_rounded"
-                android:backgroundTint="#40FFFFFF"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@android:anim/overshoot_interpolator">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/edit_note_white_24dp"
-                    android:stateListAnimator="@android:anim/overshoot_interpolator" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="3dp"
-                    android:text="Playlist editor"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-    </HorizontalScrollView>
-
-
-    <TextView
-        android:id="@+id/editTextText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cards"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:text="Now playing"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/songsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/editTextText2"
-        android:layout_marginTop="25dp"
-        android:nestedScrollingEnabled="false"
-        android:visibility="gone" />
+    android:layout_marginTop="75dp"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/nothing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextText2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:visibility="visible">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
+
+        <HorizontalScrollView
+            android:id="@+id/cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/favourites"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/card_rounded"
+                    android:backgroundTint="#40FFFFFF"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:stateListAnimator="@android:anim/overshoot_interpolator">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/favorite_white_24dp"
+                        android:stateListAnimator="@android:anim/overshoot_interpolator" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:text="Favourites"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/discover"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_margin="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/card_rounded"
+                    android:backgroundTint="#40FFFFFF"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:stateListAnimator="@android:anim/overshoot_interpolator">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/explore_white_24dp"
+                        android:stateListAnimator="@android:anim/overshoot_interpolator" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:text="Discover"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/editor"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_margin="8dp"
+                    android:clickable="true"
+                    android:background="@drawable/card_rounded"
+                    android:backgroundTint="#40FFFFFF"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:stateListAnimator="@android:anim/overshoot_interpolator">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/edit_note_white_24dp"
+                        android:stateListAnimator="@android:anim/overshoot_interpolator" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:text="Playlist editor"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
 
         <TextView
-            android:id="@+id/nothing1"
+            android:id="@+id/editTextText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Nothing to show"
+            android:layout_below="@+id/cards"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="25dp"
+            android:text="Now playing"
             android:textColor="@color/white"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/songsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/editTextText2"
+            android:layout_marginTop="25dp"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/nothing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nothing1"
-            android:layout_marginTop="8dp"
-            android:text="Start by adding some music"
-            android:textColor="#aaaaaa"
-            android:textSize="18dp" />
+            android:layout_below="@+id/editTextText2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/nothing1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Nothing to show"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nothing1"
+                android:layout_marginTop="8dp"
+                android:text="Start by adding some music"
+                android:textColor="#aaaaaa"
+                android:textSize="18dp" />
+        </RelativeLayout>
+
+
     </RelativeLayout>
-
-
-</RelativeLayout>
+</ScrollView>

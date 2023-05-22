@@ -18,13 +18,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
-public final class DownloaderTestImpl extends Downloader {
+public final class DownloaderImplementation extends Downloader {
     private static final String USER_AGENT
             = "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0";
-    private static DownloaderTestImpl instance;
+    private static DownloaderImplementation instance;
     private final OkHttpClient client;
 
-    DownloaderTestImpl(final OkHttpClient.Builder builder) {
+    DownloaderImplementation(final OkHttpClient.Builder builder) {
         this.client = builder.readTimeout(30, TimeUnit.SECONDS).build();
     }
 
@@ -32,15 +32,15 @@ public final class DownloaderTestImpl extends Downloader {
      * It's recommended to call exactly once in the entire lifetime of the application.
      *
      * @param builder if null, default builder will be used
-     * @return a new instance of {@link DownloaderTestImpl}
+     * @return a new instance of {@link DownloaderImplementation}
      */
-    public static DownloaderTestImpl init(@Nullable final OkHttpClient.Builder builder) {
-        instance = new DownloaderTestImpl(
+    public static DownloaderImplementation init(@Nullable final OkHttpClient.Builder builder) {
+        instance = new DownloaderImplementation(
                 builder != null ? builder : new OkHttpClient.Builder());
         return instance;
     }
 
-    public static DownloaderTestImpl getInstance() {
+    public static DownloaderImplementation getInstance() {
         if (instance == null) {
             init(null);
         }

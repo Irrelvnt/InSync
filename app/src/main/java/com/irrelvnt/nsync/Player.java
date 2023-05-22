@@ -13,10 +13,10 @@ import java.util.List;
 
 public final class Player {
     private static MediaPlayer player;
-    public static List<Song> nowPlaying;
+    public static List<Song> nowPlaying = new ArrayList<>();
     private static List<Song> selectedSongs = new ArrayList<>();
     private static Song playing;
-    private static List<Song> fetchedVideos = new ArrayList<>();
+    public static List<Song> fetchedVideos = new ArrayList<>();
 
     public static void setPlayPauseButtons(ImageButton play, ImageButton pause) {
         play.setOnClickListener(v -> {
@@ -78,7 +78,9 @@ public final class Player {
     public static <T> void setFetchedVideos(List<T> page) {
         for (int i = 0; i < page.size(); i++) {
             List<String> extractedValues = Utils.extractValuesFromString(page.get(i).toString());
-            fetchedVideos.add(new Song(extractedValues.get(1), extractedValues.get(0), extractedValues.get(3), extractedValues.get(2)));
+            fetchedVideos.add(new Song(extractedValues.get(2), extractedValues.get(0), extractedValues.get(3), extractedValues.get(1)));
         }
     }
+
+
 }

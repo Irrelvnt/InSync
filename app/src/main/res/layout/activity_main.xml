@@ -36,9 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#A0000000"
         android:fitsSystemWindows="true"
         android:paddingTop="30dp"
+        android:theme="@style/Theme.Material3.Dark"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
