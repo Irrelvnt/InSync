@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.irrelvnt.nsync.NowPlaying;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.clickListener.OnItemClickListener;
 import com.irrelvnt.nsync.databinding.FragmentHomeBinding;
@@ -31,10 +30,10 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         recyclerView = binding.songsRecyclerView;
         nothingToShow = binding.nothing;
-        recyclerView.setAdapter(new SongAdapter(NowPlaying.nowPlaying, new OnItemClickListener() {
+        recyclerView.setAdapter(new SongAdapter(Player.nowPlaying, new OnItemClickListener() {
             @Override
             public void onItemClick(Song song) {
-                int index = NowPlaying.nowPlaying.indexOf(song);
+                int index = Player.nowPlaying.indexOf(song);
                 Player.selectSong(song, recyclerView, index);
             }
         }));

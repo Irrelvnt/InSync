@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.MusicExtractor.MusicProvider;
-import com.irrelvnt.nsync.NowPlaying;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.databinding.FragmentDiscoverBinding;
 import com.irrelvnt.nsync.ui.songList.SongAdapter;
@@ -70,8 +69,8 @@ public class DiscoverFragment extends Fragment {
                 });
         binding.addToNowPlaying.setOnClickListener(v -> {
             if (Player.selectedSongs.size() > 0) {
-                Player.addToNowPlaying(null);
-                SaveAndLoad saveAndLoad = new SaveAndLoad(requireContext().getApplicationContext(), NowPlaying.nowPlaying);
+                Player.nowPlaying.addAll(Player.selectedSongs);
+                SaveAndLoad saveAndLoad = new SaveAndLoad(requireContext().getApplicationContext(), Player.nowPlaying);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

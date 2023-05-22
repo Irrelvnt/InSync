@@ -6,6 +6,7 @@ import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.irrelvnt.nsync.NowPlaying;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.R;
 import com.irrelvnt.nsync.databinding.ActivityMainBinding;
@@ -57,12 +57,14 @@ public class MainActivity extends AppCompatActivity {
         Player.setPlayPauseButtons(findViewById(R.id.play), findViewById(R.id.pause));
         Player.setContext(this);
         Player.initializePlayer();
-        SaveAndLoad saveAndLoad = new SaveAndLoad(getApplicationContext(), NowPlaying.nowPlaying);
+        SaveAndLoad saveAndLoad = new SaveAndLoad(getApplicationContext(), Player.nowPlaying);
         try {
             List<Song> loadedSongs = saveAndLoad.load();
             if (loadedSongs.size() > 0) {
                 Player.selectedSongs = loadedSongs;
-                Player.addToNowPlaying(loadedSongs);
+                Player.nowPlaying.addAll(loadedSongs);
+                findViewById(R.id.songsRecyclerView).setVisibility(View.VISIBLE);
+                findViewById(R.id.nothing).setVisibility(View.GONE);
             }
         } catch (Exception e) {
         }

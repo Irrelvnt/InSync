@@ -154,7 +154,8 @@
             android:layout_below="@+id/editTextText2"
             android:layout_marginTop="25dp"
             android:nestedScrollingEnabled="false"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_marginBottom="150dp" />
 
         <RelativeLayout
             android:id="@+id/nothing"
@@ -163,7 +164,7 @@
             android:layout_below="@+id/editTextText2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="75dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/nothing1"

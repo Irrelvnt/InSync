@@ -7,20 +7,20 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.irrelvnt.nsync.MusicExtractor.MusicProvider;
 import com.irrelvnt.nsync.ui.song.Song;
 import com.irrelvnt.nsync.utils.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Player {
+public final class Player implements Serializable {
     private static MediaPlayer player;
     public static List<Song> selectedSongs = new ArrayList<>();
     private static Song playing;
+    public static List<Song> nowPlaying = new ArrayList<>();
     public static List<Song> fetchedVideos = new ArrayList<>();
     public static Context context;
 
@@ -45,16 +45,6 @@ public final class Player {
         });
     }
 
-    public static void addToNowPlaying(@Nullable List<Song> songs) {
-        if (songs != null) {
-            NowPlaying.nowPlaying.addAll(songs);
-        } else {
-            NowPlaying.nowPlaying.addAll(selectedSongs);
-        }
-        playing = NowPlaying.nowPlaying.get(NowPlaying.nowPlaying.size() - 1);
-        selectedSongs.clear();
-        MusicProvider.getSongTask(playing.getUrl());
-    }
 
     public static void selectSong(Song song, RecyclerView recyclerView, int index) {
         if (!selectedSongs.contains(song)) {

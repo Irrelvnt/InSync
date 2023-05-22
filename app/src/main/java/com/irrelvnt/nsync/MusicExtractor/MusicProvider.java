@@ -66,6 +66,7 @@ public final class MusicProvider {
                             HomeFragment.getInstance().changeVisibility();
                         });
                     } catch (Exception e) {
+
                     }
                 }
         ).start();
