@@ -1,15 +1,14 @@
 package com.irrelvnt.nsync.ui;
 
+import android.annotation.SuppressLint;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
 
+    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,20 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         //songs recyclerView
         List<Song> playingNow = new ArrayList<>();
-        playingNow.add(new Song("Hello", "Shy Martin", R.drawable.explore_white_24dp, "https://music.songsio.com/a/latenightthghts/02%20late%20night%20thoughts.mp3"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
-        playingNow.add(new Song("Hello", "Adele", R.drawable.explore_white_24dp, "a"));
-        playingNow.add(new Song("Bybyby", "Adele", R.drawable.explore_white_24dp, "b"));
         RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
         RelativeLayout nothingToShow = findViewById(R.id.nothing);
         if (!playingNow.isEmpty()) {
@@ -96,13 +82,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try {
-            String res = YoutubeExtractor.getInstance("https://www.youtube.com/watch?v=jH1RNk8954Q");
-            Toast.makeText(getApplicationContext(), res, Toast.LENGTH_LONG).show();
-            Log.e("TAG", res);
-        } catch (Exception e) {
-            Log.e("TAG", "error", e);
-        }
+//        YoutubeExtractor.getSongTask("https://www.youtube.com/watch?v=jH1RNk8954Q");
+        YoutubeExtractor.getInfoFromName("hello");
     }
 
     @Override
@@ -113,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

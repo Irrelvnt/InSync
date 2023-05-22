@@ -4,9 +4,9 @@ public class Song {
     String title;
     String url;
     String artist;
-    int image;
+    String image;
 
-    public Song(String title, String artist, int image, String url) {
+    public Song(String title, String artist, String image, String url) {
         this.title = title;
         this.artist = artist;
         this.image = image;
@@ -21,7 +21,11 @@ public class Song {
         return artist;
     }
 
-    public int getImage() {
+    public String getUrl() {
+        return url;
+    }
+
+    public String getImage() {
         return image;
     }
 }

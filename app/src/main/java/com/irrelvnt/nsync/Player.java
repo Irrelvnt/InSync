@@ -8,14 +8,15 @@ import android.widget.ImageButton;
 import com.irrelvnt.nsync.ui.song.Song;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
-
-    public static Boolean isPlaying = false;
+public final class Player {
     private static MediaPlayer player;
-    public List<Song> nowPlaying;
-    public List<Song> selectedSongs;
+    public static List<Song> nowPlaying;
+    private static List<Song> selectedSongs = new ArrayList<>();
+    private static Song playing;
+    private static List<Song> fetchedVideos = new ArrayList<>();
 
     public static void setPlayPauseButtons(ImageButton play, ImageButton pause) {
         play.setOnClickListener(v -> {
@@ -25,7 +26,6 @@ public class Player {
                 player.start();
                 play.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
-                isPlaying = true;
             }
         });
         pause.setOnClickListener(v -> {
@@ -35,18 +35,26 @@ public class Player {
                 player.pause();
                 pause.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
-                isPlaying = false;
             }
         });
     }
 
-    public void selectSong(Song song) {
+    public static void addToNowPlaying() {
+        nowPlaying.addAll(selectedSongs);
+        playing = nowPlaying.get(-1);
+        try {
+            setUrl(playing.getUrl());
+        } catch (Exception e) {
+        }
+    }
+
+    public static void selectSong(Song song) {
         if (!selectedSongs.contains(song)) {
             selectedSongs.add(song);
         }
     }
 
-    public void unselectSong(Song song) {
+    public static void unselectSong(Song song) {
         if (selectedSongs.contains(song)) {
             selectedSongs.remove(song);
         }
@@ -65,5 +73,12 @@ public class Player {
     public static void releasePlayer() {
         player.release();
         player = null;
+    }
+
+    public static <T> void setFetchedVideos(List<T> page) {
+        for (int i = 0; i < page.size(); i++) {
+            List<String> extractedValues = Utils.extractValuesFromString(page.get(i).toString());
+            fetchedVideos.add(new Song(extractedValues.get(1), extractedValues.get(0), extractedValues.get(3), extractedValues.get(2)));
+        }
     }
 }

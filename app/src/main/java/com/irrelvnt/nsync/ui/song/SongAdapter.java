@@ -1,6 +1,8 @@
 package com.irrelvnt.nsync.ui.song;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -31,7 +33,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         holder.titleView.setText(songs.get(position).getTitle());
         holder.artistView.setText(songs.get(position).getArtist());
-        holder.imageView.setImageResource(songs.get(position).getImage());
+        new Thread(
+                () -> {
+                    try {
+                        holder.imageView.setImageURI(Uri.parse(songs.get(position).getImage()));
+                    } catch (Exception e) {
+                        Log.e("TAG", "err", e);
+                    }
+                }
+        ).start();
     }
 
     @Override
