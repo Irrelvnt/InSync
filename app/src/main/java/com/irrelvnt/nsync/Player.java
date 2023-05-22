@@ -2,8 +2,11 @@ package com.irrelvnt.nsync;
 
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.ui.song.Song;
 
@@ -14,7 +17,7 @@ import java.util.List;
 public final class Player {
     private static MediaPlayer player;
     public static List<Song> nowPlaying = new ArrayList<>();
-    private static List<Song> selectedSongs = new ArrayList<>();
+    public static List<Song> selectedSongs = new ArrayList<>();
     private static Song playing;
     public static List<Song> fetchedVideos = new ArrayList<>();
 
@@ -41,24 +44,26 @@ public final class Player {
 
     public static void addToNowPlaying() {
         nowPlaying.addAll(selectedSongs);
-        playing = nowPlaying.get(-1);
+        selectedSongs.clear();
+        playing = nowPlaying.get(nowPlaying.size() - 1);
         try {
             setUrl(playing.getUrl());
         } catch (Exception e) {
         }
     }
 
-    public static void selectSong(Song song) {
+    public static void selectSong(Song song, RecyclerView recyclerView, int index) {
         if (!selectedSongs.contains(song)) {
             selectedSongs.add(song);
+            recyclerView.getChildAt(index).findViewById(R.id.add).setVisibility(View.GONE);
+            recyclerView.getChildAt(index).findViewById(R.id.remove).setVisibility(View.VISIBLE);
+        } else {
+            selectedSongs.remove(song);
+            recyclerView.getChildAt(index).findViewById(R.id.add).setVisibility(View.VISIBLE);
+            recyclerView.getChildAt(index).findViewById(R.id.remove).setVisibility(View.GONE);
         }
     }
 
-    public static void unselectSong(Song song) {
-        if (selectedSongs.contains(song)) {
-            selectedSongs.remove(song);
-        }
-    }
 
     public static void setUrl(String url) throws IOException {
         player.setDataSource(url);
@@ -75,10 +80,16 @@ public final class Player {
         player = null;
     }
 
+
     public static <T> void setFetchedVideos(List<T> page) {
         for (int i = 0; i < page.size(); i++) {
             List<String> extractedValues = Utils.extractValuesFromString(page.get(i).toString());
-            fetchedVideos.add(new Song(extractedValues.get(2), extractedValues.get(0), extractedValues.get(3), extractedValues.get(1)));
+            Log.e("TAG", extractedValues.toString());
+            try {
+                fetchedVideos.add(new Song(extractedValues.get(2), extractedValues.get(0), extractedValues.get(3), extractedValues.get(1)));
+            } catch (Exception e) {
+                return;
+            }
         }
     }
 

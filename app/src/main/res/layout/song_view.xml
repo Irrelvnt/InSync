@@ -4,44 +4,71 @@
     android:id="@+id/song"
     android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_rounded"
+    android:layout_marginVertical="5dp"
+    android:backgroundTint="#20ffffff"
+    android:theme="@style/Theme.Material3.Dark"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:stateListAnimator="@android:anim/overshoot_interpolator">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginEnd="10dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:background="@drawable/card_rounded" />
 
-    <TextView
-        android:id="@+id/titleView"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_toEndOf="@+id/imageView"
-        android:text="Title"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/imageView">
 
-    <TextView
-        android:id="@+id/artistView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleView"
-        android:layout_toEndOf="@+id/imageView"
-        android:textColor="#aaaaaa"
-        android:text="Artist" />
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:text="Title"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/artistView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleView"
+            android:layout_marginEnd="50dp"
+            android:text="Artist"
+            android:textColor="#aaaaaa" />
+    </RelativeLayout>
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/play_arrow_white_24dp" />
+        android:layout_marginRight="16dp"
+        android:src="@drawable/add_white_24dp"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:foregroundTint="#FF1111"
+        android:src="@drawable/remove_white_24dp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

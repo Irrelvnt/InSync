@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.ui.discover.DiscoverFragment;
@@ -24,11 +25,13 @@ import org.schabi.newpipe.extractor.stream.StreamExtractor;
 
 import java.util.List;
 
-public class MusicProvider {
-    static StreamingService youtube;
-    static LinkHandlerFactory linkHandlerFactory;
-    static LinkHandler linkHandler;
-    static StreamExtractor streamExtractor;
+public final class MusicProvider {
+    private static StreamingService youtube;
+    private static LinkHandlerFactory linkHandlerFactory;
+    private static LinkHandler linkHandler;
+    private static StreamExtractor streamExtractor;
+
+    private static RecyclerView recyclerView;
 
     private static void initializeExtractor() throws Exception {
         youtube = NewPipe.getService(0);
@@ -73,9 +76,12 @@ public class MusicProvider {
                 SearchExtractor searchExtractor = youtube.getSearchExtractor(query);
                 searchExtractor.onFetchPage(NewPipe.getDownloader());
                 ListExtractor.InfoItemsPage<InfoItem> page = searchExtractor.getInitialPage();
+                Player.fetchedVideos.clear();
                 Player.setFetchedVideos(page.getItems());
-                mainThreadHandler.post(
-                        () -> DiscoverFragment.getInstance().changeVisibility()
+                mainThreadHandler.post(() -> {
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                            DiscoverFragment.getInstance().changeVisibility();
+                        }
                 );
             } catch (Exception e) {
                 Log.e("TAG", "err", e);
@@ -83,5 +89,9 @@ public class MusicProvider {
         });
         thread.start();
 
+    }
+
+    public static void setRecyclerView(RecyclerView recyclerView1) {
+        recyclerView = recyclerView1;
     }
 }

@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.Player;
+import com.irrelvnt.nsync.clickListener.OnItemClickListener;
 import com.irrelvnt.nsync.databinding.FragmentHomeBinding;
-import com.irrelvnt.nsync.ui.song.SongAdapter;
+import com.irrelvnt.nsync.ui.song.Song;
+import com.irrelvnt.nsync.ui.songList.SongAdapter;
 
 public class HomeFragment extends Fragment {
     private static HomeFragment instance;
     public RecyclerView recyclerView;
     public RelativeLayout nothingToShow;
-    private SongAdapter adapter;
-
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -30,8 +30,13 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         recyclerView = binding.songsRecyclerView;
         nothingToShow = binding.nothing;
-        adapter = new SongAdapter(Player.nowPlaying);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(new SongAdapter(Player.nowPlaying, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Song song) {
+                int index = Player.nowPlaying.indexOf(song);
+                Player.selectSong(song, recyclerView, index);
+            }
+        }));
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         return root;
     }

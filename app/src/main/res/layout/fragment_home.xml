@@ -28,8 +28,9 @@
                     android:layout_height="170dp"
                     android:layout_margin="8dp"
                     android:background="@drawable/card_rounded"
-                    android:backgroundTint="#40FFFFFF"
+                    android:backgroundTint="#50FFFFFF"
                     android:clickable="true"
+                    android:theme="@style/Theme.Material3.Dark"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@android:anim/overshoot_interpolator">
 
@@ -62,11 +63,12 @@
                     android:layout_margin="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:clickable="true"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/card_rounded"
-                    android:backgroundTint="#40FFFFFF"
+                    android:backgroundTint="#50FFFFFF"
+                    android:clickable="true"
+                    android:theme="@style/Theme.Material3.Dark"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@android:anim/overshoot_interpolator">
 
@@ -99,7 +101,8 @@
                     android:layout_margin="8dp"
                     android:clickable="true"
                     android:background="@drawable/card_rounded"
-                    android:backgroundTint="#40FFFFFF"
+                    android:backgroundTint="#50FFFFFF"
+                    android:theme="@style/Theme.Material3.Dark"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@android:anim/overshoot_interpolator">
 
