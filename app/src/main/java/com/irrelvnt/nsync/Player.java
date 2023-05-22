@@ -1,25 +1,28 @@
 package com.irrelvnt.nsync;
 
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.util.Log;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.irrelvnt.nsync.MusicExtractor.MusicProvider;
 import com.irrelvnt.nsync.ui.song.Song;
+import com.irrelvnt.nsync.utils.Utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Player {
     private static MediaPlayer player;
-    public static List<Song> nowPlaying = new ArrayList<>();
     public static List<Song> selectedSongs = new ArrayList<>();
     private static Song playing;
     public static List<Song> fetchedVideos = new ArrayList<>();
+    public static Context context;
 
     public static void setPlayPauseButtons(ImageButton play, ImageButton pause) {
         play.setOnClickListener(v -> {
@@ -42,14 +45,15 @@ public final class Player {
         });
     }
 
-    public static void addToNowPlaying() {
-        nowPlaying.addAll(selectedSongs);
-        selectedSongs.clear();
-        playing = nowPlaying.get(nowPlaying.size() - 1);
-        try {
-            setUrl(playing.getUrl());
-        } catch (Exception e) {
+    public static void addToNowPlaying(@Nullable List<Song> songs) {
+        if (songs != null) {
+            NowPlaying.nowPlaying.addAll(songs);
+        } else {
+            NowPlaying.nowPlaying.addAll(selectedSongs);
         }
+        playing = NowPlaying.nowPlaying.get(NowPlaying.nowPlaying.size() - 1);
+        selectedSongs.clear();
+        MusicProvider.getSongTask(playing.getUrl());
     }
 
     public static void selectSong(Song song, RecyclerView recyclerView, int index) {
@@ -65,9 +69,20 @@ public final class Player {
     }
 
 
-    public static void setUrl(String url) throws IOException {
-        player.setDataSource(url);
-        player.prepare();
+    public static void setUrl(String url) throws Exception {
+        player.reset();
+        player.setDataSource(context, Uri.parse(url));
+        player.prepareAsync();
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                player.start();
+            }
+        });
+    }
+
+    public static void setContext(Context context1) {
+        context = context1;
     }
 
     public static void initializePlayer() {
@@ -75,8 +90,8 @@ public final class Player {
         player.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());
     }
 
-    public static void releasePlayer() {
-        player.release();
+    public static void resetPlayer() {
+        player.reset();
         player = null;
     }
 
@@ -84,7 +99,6 @@ public final class Player {
     public static <T> void setFetchedVideos(List<T> page) {
         for (int i = 0; i < page.size(); i++) {
             List<String> extractedValues = Utils.extractValuesFromString(page.get(i).toString());
-            Log.e("TAG", extractedValues.toString());
             try {
                 fetchedVideos.add(new Song(extractedValues.get(2), extractedValues.get(0), extractedValues.get(3), extractedValues.get(1)));
             } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.irrelvnt.nsync;
+package com.irrelvnt.nsync.utils;
 
 import java.util.ArrayList;
 import java.util.List;

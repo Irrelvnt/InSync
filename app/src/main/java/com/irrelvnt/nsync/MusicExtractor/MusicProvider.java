@@ -2,7 +2,6 @@ package com.irrelvnt.nsync.MusicExtractor;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,14 +52,20 @@ public final class MusicProvider {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
         new Thread(
                 () -> {
                     try {
                         String audioURL = getAudio(url);
-                        Player.setUrl(audioURL);
-                        HomeFragment.getInstance().changeVisibility();
+
+                        mainThreadHandler.post(() -> {
+                            try {
+                                Player.setUrl(audioURL);
+                            } catch (Exception e) {
+                            }
+                            HomeFragment.getInstance().changeVisibility();
+                        });
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
                     }
                 }
         ).start();
@@ -84,7 +89,6 @@ public final class MusicProvider {
                         }
                 );
             } catch (Exception e) {
-                Log.e("TAG", "err", e);
             }
         });
         thread.start();

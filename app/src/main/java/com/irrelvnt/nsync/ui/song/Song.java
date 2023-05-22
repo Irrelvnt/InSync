@@ -12,9 +12,11 @@ import com.irrelvnt.nsync.R;
 import com.irrelvnt.nsync.clickListener.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class Song {
+public class Song implements Serializable {
     String title;
     String url;
     String artist;

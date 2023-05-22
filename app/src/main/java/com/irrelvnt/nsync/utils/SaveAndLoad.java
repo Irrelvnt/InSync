@@ -1,4 +1,4 @@
-package com.irrelvnt.nsync;
+package com.irrelvnt.nsync.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SaveAndLoad {
@@ -40,16 +41,17 @@ public class SaveAndLoad {
 
     public List<Song> load() throws IOException, ClassNotFoundException {
         String encodedObject = sharedPreferences.getString("NowPlaying", null);
-        byte[] serializedObject = Base64.decode(encodedObject, Base64.DEFAULT);
-        byteArrayInputStream = new ByteArrayInputStream(serializedObject);
-        ObjectInputStream objectInputStream;
-        objectInputStream = new ObjectInputStream(SaveAndLoad.this.byteArrayInputStream);
-        List<Song> loadedSongs = (List<Song>) objectInputStream.readObject();
-        if (loadedSongs != null) {
-            songs.addAll(loadedSongs);
-            return songs;
-        } else {
-            return null;
+        if (encodedObject != null) {
+            byte[] serializedObject = Base64.decode(encodedObject, Base64.DEFAULT);
+            byteArrayInputStream = new ByteArrayInputStream(serializedObject);
+            ObjectInputStream objectInputStream;
+            objectInputStream = new ObjectInputStream(SaveAndLoad.this.byteArrayInputStream);
+            List<Song> loadedSongs = (List<Song>) objectInputStream.readObject();
+            if (loadedSongs != null) {
+                songs.addAll(loadedSongs);
+                return songs;
+            }
         }
+        return new ArrayList<>();
     }
 }

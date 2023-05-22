@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,11 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.MusicExtractor.MusicProvider;
+import com.irrelvnt.nsync.NowPlaying;
 import com.irrelvnt.nsync.Player;
-import com.irrelvnt.nsync.clickListener.OnItemClickListener;
 import com.irrelvnt.nsync.databinding.FragmentDiscoverBinding;
-import com.irrelvnt.nsync.ui.song.Song;
 import com.irrelvnt.nsync.ui.songList.SongAdapter;
+import com.irrelvnt.nsync.utils.SaveAndLoad;
 
 public class DiscoverFragment extends Fragment {
 
@@ -43,12 +44,9 @@ public class DiscoverFragment extends Fragment {
         fetchedView = binding.fetched;
         recyclerView = binding.recyclerView;
         nothingToShow = binding.nothing;
-        recyclerView.setAdapter(new SongAdapter(Player.fetchedVideos, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Song song) {
-                int index = Player.fetchedVideos.indexOf(song);
-                Player.selectSong(song, recyclerView, index);
-            }
+        recyclerView.setAdapter(new SongAdapter(Player.fetchedVideos, song -> {
+            int index = Player.fetchedVideos.indexOf(song);
+            Player.selectSong(song, recyclerView, index);
         }));
         MusicProvider.setRecyclerView(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -70,12 +68,20 @@ public class DiscoverFragment extends Fragment {
                     }
                     return false;
                 });
-        binding.addToNowPlaying.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Player.selectedSongs.size() > 0) {
-                    Player.addToNowPlaying();
-                }
+        binding.addToNowPlaying.setOnClickListener(v -> {
+            if (Player.selectedSongs.size() > 0) {
+                Player.addToNowPlaying(null);
+                SaveAndLoad saveAndLoad = new SaveAndLoad(requireContext().getApplicationContext(), NowPlaying.nowPlaying);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            saveAndLoad.save();
+                        } catch (Exception e) {
+                            Log.e("TAG", "saving err", e);
+                        }
+                    }
+                });
             }
         });
         return root;

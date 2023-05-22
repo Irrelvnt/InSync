@@ -16,9 +16,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.irrelvnt.nsync.NowPlaying;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.R;
 import com.irrelvnt.nsync.databinding.ActivityMainBinding;
+import com.irrelvnt.nsync.ui.song.Song;
+import com.irrelvnt.nsync.utils.SaveAndLoad;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,13 +55,24 @@ public class MainActivity extends AppCompatActivity {
             backgroundeffect.setRenderEffect(RenderEffect.createBlurEffect(100, 100, Shader.TileMode.MIRROR));
         }
         Player.setPlayPauseButtons(findViewById(R.id.play), findViewById(R.id.pause));
+        Player.setContext(this);
         Player.initializePlayer();
+        SaveAndLoad saveAndLoad = new SaveAndLoad(getApplicationContext(), NowPlaying.nowPlaying);
+        try {
+            List<Song> loadedSongs = saveAndLoad.load();
+            if (loadedSongs.size() > 0) {
+                Player.selectedSongs = loadedSongs;
+                Player.addToNowPlaying(loadedSongs);
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Player.releasePlayer();
+        Player.resetPlayer();
     }
 
     @Override
