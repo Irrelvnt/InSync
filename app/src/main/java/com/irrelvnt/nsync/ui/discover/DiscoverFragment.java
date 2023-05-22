@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.irrelvnt.nsync.MusicExtractor.MusicProvider;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.databinding.FragmentDiscoverBinding;
-import com.irrelvnt.nsync.ui.songList.SongAdapter;
-import com.irrelvnt.nsync.utils.SaveAndLoad;
+import com.irrelvnt.nsync.ui.song.SongAdapter;
+import com.irrelvnt.nsync.utils.SessionSaver;
 
 public class DiscoverFragment extends Fragment {
 
@@ -54,10 +53,12 @@ public class DiscoverFragment extends Fragment {
         binding.searchquery.setOnTouchListener(
                 (v, event) -> {
                     if (event.getAction() == MotionEvent.ACTION_UP) {
+                        binding.addToNowPlaying.setVisibility(View.GONE);
                         int drawableRightWidth = binding.searchquery.getCompoundDrawables()[2].getBounds().width();
                         if (event.getRawX() >= (binding.searchquery.getRight() - drawableRightWidth)) {
                             MusicProvider.getInfoFromName(binding.searchquery.getText().toString());
                             Toast.makeText(requireContext(), "searching", Toast.LENGTH_LONG).show();
+                            binding.addToNowPlaying.setVisibility(View.VISIBLE);
                             View view = mainActivity.getCurrentFocus();
                             if (view != null) {
                                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -70,17 +71,7 @@ public class DiscoverFragment extends Fragment {
         binding.addToNowPlaying.setOnClickListener(v -> {
             if (Player.selectedSongs.size() > 0) {
                 Player.nowPlaying.addAll(Player.selectedSongs);
-                SaveAndLoad saveAndLoad = new SaveAndLoad(requireContext().getApplicationContext(), Player.nowPlaying);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            saveAndLoad.save();
-                        } catch (Exception e) {
-                            Log.e("TAG", "saving err", e);
-                        }
-                    }
-                });
+                new SessionSaver(Player.nowPlaying, requireContext().getApplicationContext()).saveNow();
             }
         });
         return root;

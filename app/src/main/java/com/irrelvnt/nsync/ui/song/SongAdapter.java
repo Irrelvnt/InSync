@@ -1,4 +1,4 @@
-package com.irrelvnt.nsync.ui.songList;
+package com.irrelvnt.nsync.ui.song;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.irrelvnt.nsync.R;
 import com.irrelvnt.nsync.clickListener.OnItemClickListener;
-import com.irrelvnt.nsync.ui.song.Song;
 
 import java.util.List;
 

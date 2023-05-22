@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.irrelvnt.nsync.Player;
 import com.irrelvnt.nsync.ui.discover.DiscoverFragment;
 import com.irrelvnt.nsync.ui.home.HomeFragment;
+import com.irrelvnt.nsync.ui.song.Song;
 
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.ListExtractor;
@@ -46,7 +47,7 @@ public final class MusicProvider {
         return audioStreams.get(0).url;
     }
 
-    public static void getSongTask(String url) {
+    public static void getSongTask(Song song) {
         try {
             initializeExtractor();
         } catch (Exception e) {
@@ -56,11 +57,11 @@ public final class MusicProvider {
         new Thread(
                 () -> {
                     try {
-                        String audioURL = getAudio(url);
-
+                        String audioURL = getAudio(song.getUrl());
+                        song.setUrl(audioURL);
                         mainThreadHandler.post(() -> {
                             try {
-                                Player.setUrl(audioURL);
+                                Player.sePlaybackSong(song);
                             } catch (Exception e) {
                             }
                             HomeFragment.getInstance().changeVisibility();

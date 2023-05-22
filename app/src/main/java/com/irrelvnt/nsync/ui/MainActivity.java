@@ -5,6 +5,7 @@ import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 Player.nowPlaying.addAll(loadedSongs);
                 findViewById(R.id.songsRecyclerView).setVisibility(View.VISIBLE);
                 findViewById(R.id.nothing).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.songsRecyclerView).setVisibility(View.GONE);
+                findViewById(R.id.nothing).setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
+            Log.e("TAG", "errorrrr", e);
         }
 
     }
@@ -81,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    public void goToDiscover(View view) {
+        NavController navController = Navigation.findNavController(view);
+        navController.navigate(R.id.nav_discover);
     }
 
     @Override

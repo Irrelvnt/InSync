@@ -8,12 +8,12 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="75dp"
             tools:context=".ui.discover.DiscoverFragment">
 
             <RelativeLayout
@@ -117,7 +117,7 @@
         android:src="@android:drawable/ic_input_add"
         android:theme="@style/Theme.Material3.Dark"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

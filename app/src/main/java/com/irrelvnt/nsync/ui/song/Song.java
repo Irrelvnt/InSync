@@ -29,6 +29,10 @@ public class Song implements Serializable {
         this.url = url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -45,7 +49,7 @@ public class Song implements Serializable {
         return image;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements Serializable {
         public ImageView imageView;
         public TextView titleView, artistView;
 

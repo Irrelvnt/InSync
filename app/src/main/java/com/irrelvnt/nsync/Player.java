@@ -6,9 +6,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.irrelvnt.nsync.ui.home.HomeFragment;
 import com.irrelvnt.nsync.ui.song.Song;
 import com.irrelvnt.nsync.utils.Utils;
 
@@ -59,13 +61,23 @@ public final class Player implements Serializable {
     }
 
 
-    public static void setUrl(String url) throws Exception {
+    public static void sePlaybackSong(Song song) throws Exception {
         player.reset();
-        player.setDataSource(context, Uri.parse(url));
+        player.setDataSource(context, Uri.parse(song.getUrl()));
         player.prepareAsync();
+        TextView artist = HomeFragment.getInstance().getActivity().findViewById(R.id.playingArtist);
+        TextView title = HomeFragment.getInstance().getActivity().findViewById(R.id.playingTitle);
+        artist.setText(song.getArtist());
+        title.setText(song.getArtist());
+        HomeFragment.getInstance().getActivity().findViewById(R.id.play).setVisibility(View.GONE);
+        HomeFragment.getInstance().getActivity().findViewById(R.id.loadingPlayback).setVisibility(View.VISIBLE);
+
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                HomeFragment.getInstance().getActivity().findViewById(R.id.loadingPlayback).setVisibility(View.GONE);
+                HomeFragment.getInstance().getActivity().findViewById(R.id.play).setVisibility(View.GONE);
+                HomeFragment.getInstance().getActivity().findViewById(R.id.pause).setVisibility(View.VISIBLE);
                 player.start();
             }
         });
