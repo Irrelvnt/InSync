@@ -76,6 +76,24 @@
                         android:textColor="#aaaaaa"
                         android:textSize="18dp" />
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/loadingFetch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/searchquery"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="75dp"
+                    android:visibility="gone">
+                    <ProgressBar
+                        android:id="@+id/loadingPlayback"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        style="@android:style/Widget.ProgressBar.Large"
+                         />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/fetched"

@@ -30,6 +30,7 @@ public class DiscoverFragment extends Fragment {
     private FragmentDiscoverBinding binding;
     private RelativeLayout fetchedView;
     private RelativeLayout nothingToShow;
+    private RelativeLayout loading;
     private RecyclerView recyclerView;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,6 +43,7 @@ public class DiscoverFragment extends Fragment {
         fetchedView = binding.fetched;
         recyclerView = binding.recyclerView;
         nothingToShow = binding.nothing;
+        loading = binding.loadingFetch;
         recyclerView.setAdapter(new SongAdapter(Player.fetchedVideos, song -> {
             int index = Player.fetchedVideos.indexOf(song);
             Player.selectSong(song, recyclerView, index);
@@ -56,8 +58,9 @@ public class DiscoverFragment extends Fragment {
                         binding.addToNowPlaying.setVisibility(View.GONE);
                         int drawableRightWidth = binding.searchquery.getCompoundDrawables()[2].getBounds().width();
                         if (event.getRawX() >= (binding.searchquery.getRight() - drawableRightWidth)) {
+                            binding.nothing.setVisibility(View.GONE);
+                            binding.loadingFetch.setVisibility(View.VISIBLE);
                             MusicProvider.getInfoFromName(binding.searchquery.getText().toString());
-                            Toast.makeText(requireContext(), "searching", Toast.LENGTH_LONG).show();
                             binding.addToNowPlaying.setVisibility(View.VISIBLE);
                             View view = mainActivity.getCurrentFocus();
                             if (view != null) {
@@ -79,8 +82,9 @@ public class DiscoverFragment extends Fragment {
 
     public void changeVisibility() {
         if (Player.fetchedVideos.size() != 0) {
-            fetchedView.setVisibility(View.VISIBLE);
             nothingToShow.setVisibility(View.GONE);
+            loading.setVisibility(View.GONE);
+            fetchedView.setVisibility(View.VISIBLE);
         }
     }
 

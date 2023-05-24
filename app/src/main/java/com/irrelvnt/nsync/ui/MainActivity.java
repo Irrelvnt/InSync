@@ -1,5 +1,7 @@
 package com.irrelvnt.nsync.ui;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -73,6 +77,24 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("TAG", "errorrrr", e);
         }
+        binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                RelativeLayout player = findViewById(R.id.playerView);
+                int playerHeight = player.getHeight();
+                binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                Player.playerAnimator = ObjectAnimator.ofFloat(player, "translationY",playerHeight, 0f);
+                Player.playerAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+                // Set the initial position of the view off the screen
+                player.setTranslationY(playerHeight);
+
+                // Set an AnimatorSet to combine the slide-up animation and set the visibility of the view to VISIBLE when the animation starts
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.play(Player.playerAnimator);
+
+            }
+        });
 
     }
 

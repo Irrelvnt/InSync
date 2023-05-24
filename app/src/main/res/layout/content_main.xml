@@ -19,6 +19,7 @@
         app:navGraph="@navigation/mobile_navigation" />
 
     <include
+        android:id="@+id/playerView"
         layout="@layout/music_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

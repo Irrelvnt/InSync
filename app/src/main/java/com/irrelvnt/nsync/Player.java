@@ -1,5 +1,6 @@
 package com.irrelvnt.nsync;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -25,6 +26,7 @@ public final class Player implements Serializable {
     public static List<Song> nowPlaying = new ArrayList<>();
     public static List<Song> fetchedVideos = new ArrayList<>();
     public static Context context;
+    public static ObjectAnimator playerAnimator;
 
     public static void setPlayPauseButtons(ImageButton play, ImageButton pause) {
         play.setOnClickListener(v -> {
@@ -61,25 +63,15 @@ public final class Player implements Serializable {
     }
 
 
-    public static void sePlaybackSong(Song song) throws Exception {
+    public static void sePlaybackSong(Song song,String audioURL) throws Exception {
         player.reset();
-        player.setDataSource(context, Uri.parse(song.getUrl()));
+        player.setDataSource(context, Uri.parse(audioURL));
         player.prepareAsync();
-        TextView artist = HomeFragment.getInstance().getActivity().findViewById(R.id.playingArtist);
-        TextView title = HomeFragment.getInstance().getActivity().findViewById(R.id.playingTitle);
-        artist.setText(song.getArtist());
-        title.setText(song.getArtist());
-        HomeFragment.getInstance().getActivity().findViewById(R.id.play).setVisibility(View.GONE);
-        HomeFragment.getInstance().getActivity().findViewById(R.id.loadingPlayback).setVisibility(View.VISIBLE);
-
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                HomeFragment.getInstance().getActivity().findViewById(R.id.loadingPlayback).setVisibility(View.GONE);
-                HomeFragment.getInstance().getActivity().findViewById(R.id.play).setVisibility(View.GONE);
-                HomeFragment.getInstance().getActivity().findViewById(R.id.pause).setVisibility(View.VISIBLE);
-                player.start();
-            }
+        player.setOnPreparedListener(mp -> {
+            HomeFragment.getInstance().getActivity().findViewById(R.id.loadingPlayback).setVisibility(View.GONE);
+            HomeFragment.getInstance().getActivity().findViewById(R.id.play).setVisibility(View.GONE);
+            HomeFragment.getInstance().getActivity().findViewById(R.id.pause).setVisibility(View.VISIBLE);
+            mp.start();
         });
     }
 

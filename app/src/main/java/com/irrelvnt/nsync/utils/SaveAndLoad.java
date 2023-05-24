@@ -27,8 +27,7 @@ public class SaveAndLoad {
         this.songs = songs;
     }
 
-    public void save() throws IOException, ClassNotFoundException {
-        load();
+    public void save() throws Exception {
         byteArrayOuputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOuputStream);
         objectOutputStream.writeObject(songs);

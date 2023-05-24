@@ -1,6 +1,7 @@
 package com.irrelvnt.nsync.ui.song;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,9 +30,6 @@ public class Song implements Serializable {
         this.url = url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getTitle() {
         return title;
@@ -62,19 +60,15 @@ public class Song implements Serializable {
         }
 
         public void bind(final Song song, final OnItemClickListener listener) {
-
             titleView.setText(song.getTitle());
             titleView.setMaxLines(2);
             artistView.setMaxLines(1);
+            titleView.setEllipsize(TextUtils.TruncateAt.END);
+            artistView.setEllipsize(TextUtils.TruncateAt.END);
             artistView.setText(song.getArtist());
             Picasso.get().load(Uri.parse(song.getImage())).transform(new RoundedCornersTransformation(16, 0)).resize(200, 200)
                     .centerCrop().into(imageView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(song);
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onItemClick(song));
         }
     }
 }

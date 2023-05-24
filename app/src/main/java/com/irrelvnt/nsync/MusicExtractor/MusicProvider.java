@@ -58,16 +58,13 @@ public final class MusicProvider {
                 () -> {
                     try {
                         String audioURL = getAudio(song.getUrl());
-                        song.setUrl(audioURL);
                         mainThreadHandler.post(() -> {
                             try {
-                                Player.sePlaybackSong(song);
+                                Player.sePlaybackSong(song,audioURL);
                             } catch (Exception e) {
                             }
-                            HomeFragment.getInstance().changeVisibility();
                         });
                     } catch (Exception e) {
-
                     }
                 }
         ).start();
